@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - KOVI</title>
+    <link rel="stylesheet" href="/static/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <div class="admin-header">
+            <h1>🔧 Admin Panel - KOVI</h1>
+            <a href="/" class="back-btn">← Quay lại website</a>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="products">
+                📦 Sản Phẩm
+            </button>
+            <button class="tab-btn" data-tab="customers">
+                👥 Khách Hàng
+            </button>
+            <button class="tab-btn" data-tab="orders">
+                📋 Đơn Hàng
+            </button>
+        </div>
+
+        <!-- Products Tab -->
+        <div id="products" class="tab-content active">
+            <div class="tab-header">
+                <h2>Danh Sách Sản Phẩm</h2>
+                <button class="btn btn-primary" onclick="openProductModal()">
+                    + Thêm Sản Phẩm
+                </button>
+            </div>
+            <div id="products-list" class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Giá</th>
+                            <th>Số Lượng Còn</th>
+                            <th>Mô Tả</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-tbody">
+                        <!-- Dữ liệu sẽ được load bằng JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Customers Tab -->
+        <div id="customers" class="tab-content">
+            <div class="tab-header">
+                <h2>Danh Sách Khách Hàng</h2>
+                <button class="btn btn-primary" onclick="openCustomerModal()">
+                    + Thêm Khách Hàng
+                </button>
+            </div>
+            <div id="customers-list" class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>SĐT</th>
+                            <th>Zalo</th>
+                            <th>Email</th>
+                            <th>Địa Chỉ</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-tbody">
+                        <!-- Dữ liệu sẽ được load bằng JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="orders" class="tab-content">
+            <div class="tab-header">
+                <h2>Danh Sách Đơn Hàng</h2>
+                <button class="btn btn-primary" onclick="openOrderModal()">
+                    + Thêm Đơn Hàng
+                </button>
+            </div>
+            <div id="orders-list" class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Khách Hàng</th>
+                            <th>Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Thành Tiền</th>
+                            <th>Trạng Thái</th>
+                            <th>Ngày Mua</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                        <!-- Dữ liệu sẽ được load bằng JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProductModal()">&times;</span>
+            <h2 id="productModalTitle">Thêm Sản Phẩm</h2>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label>Tên Sản Phẩm:</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label>Giá:</label>
+                    <input type="number" id="productPrice" required min="0">
+                </div>
+                <div class="form-group">
+                    <label>Số Lượng Còn Lại:</label>
+                    <input type="number" id="productQuantity" required min="0">
+                </div>
+                <div class="form-group">
+                    <label>Mô Tả:</label>
+                    <textarea id="productDescription" rows="4"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Customer Modal -->
+    <div id="customerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCustomerModal()">&times;</span>
+            <h2 id="customerModalTitle">Thêm Khách Hàng</h2>
+            <form id="customerForm">
+                <input type="hidden" id="customerId">
+                <div class="form-group">
+                    <label>Tên:</label>
+                    <input type="text" id="customerName" required>
+                </div>
+                <div class="form-group">
+                    <label>SĐT:</label>
+                    <input type="tel" id="customerPhone">
+                </div>
+                <div class="form-group">
+                    <label>Zalo:</label>
+                    <input type="tel" id="customerZalo">
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="customerEmail">
+                </div>
+                <div class="form-group">
+                    <label>Địa Chỉ:</label>
+                    <input type="text" id="customerAddress">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCustomerModal()">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOrderModal()">&times;</span>
+            <h2 id="orderModalTitle">Thêm Đơn Hàng</h2>
+            <form id="orderForm">
+                <input type="hidden" id="orderId">
+                <div class="form-group">
+                    <label>Khách Hàng:</label>
+                    <select id="orderCustomer" required>
+                        <option value="">-- Chọn khách hàng --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Sản Phẩm:</label>
+                    <select id="orderProduct" required onchange="updateOrderPrice()">
+                        <option value="">-- Chọn sản phẩm --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Số Lượng:</label>
+                    <input type="number" id="orderQuantity" required min="1" onchange="updateOrderPrice()">
+                </div>
+                <div class="form-group">
+                    <label>Thành Tiền:</label>
+                    <input type="number" id="orderTotal" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Trạng Thái:</label>
+                    <select id="orderStatus">
+                        <option value="pending">Chờ xác nhận</option>
+                        <option value="confirmed">Đã xác nhận</option>
+                        <option value="shipped">Đã gửi</option>
+                        <option value="success">Đã thanh toán (SePay)</option>
+                        <option value="completed">Hoàn thành</option>
+                        <option value="cancelled">Hủy</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeOrderModal()">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/admin.js"></script>
+</body>
+</html>
