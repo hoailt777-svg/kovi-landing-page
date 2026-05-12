@@ -50,14 +50,6 @@ def get_db():
 def index():
     return render_template('index.html')
 
-@app.route('/styles.css')
-def styles():
-    return send_from_directory('.', 'styles.css')
-
-@app.route('/images/<path:filename>')
-def images(filename):
-    return send_from_directory('images', filename)
-
 @app.route('/admin')
 def admin():
     return render_template('admin.html')
