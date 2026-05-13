@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán Sepay - KOVI</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        .checkout-page { max-width: 720px; margin: 60px auto; padding: 20px; background: #fff; border-radius: 16px; box-shadow: 0 14px 40px rgba(0,0,0,0.08); }
+        .checkout-title { margin-bottom: 24px; font-size: 2rem; }
+        .checkout-summary { display: grid; gap: 16px; margin-bottom: 28px; }
+        .checkout-summary div { padding: 16px; border: 1px solid #eee; border-radius: 12px; }
+        .checkout-summary strong { display: block; margin-bottom: 8px; }
+        .qr-box { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border: 2px dashed #0072ff; border-radius: 16px; background: #f7f9ff; }
+        .qr-code { width: 260px; height: 260px; margin-bottom: 16px; background: #fff; display: grid; place-items: center; border-radius: 16px; }
+        .qr-text { word-break: break-word; color: #333; margin-top: 12px; text-align: center; }
+        .button-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+        .button-row a { padding: 12px 20px; border-radius: 999px; text-decoration: none; color: #fff; background: #0072ff; }
+        .alert-error { padding: 18px 20px; border-radius: 14px; background: #ffe4e6; color: #9f1239; margin-bottom: 24px; }
+    </style>
+</head>
+<body>
+    <div class="checkout-page">
+        {% if error %}
+            <div class="alert-error">{{ error }}</div>
+            <a href="/" class="cta-button">Quay lại trang chủ</a>
+        {% elif order.is_consultation %}
+            <div class="checkout-title">Cảm ơn bạn đã đăng ký tư vấn!</div>
+            <div class="checkout-summary">
+                <div style="background: #f0fdf4; border-color: #bbf7d0; text-align: center; padding: 40px; border-radius: 16px;">
+                    <h2 style="color: #166534; margin-bottom: 16px;">✅ Chúng tôi đã nhận được thông tin!</h2>
+                    <p style="color: #15803d; font-size: 1.1rem;">Chuyên viên của KOVI sẽ liên hệ với bạn qua số điện thoại sớm nhất có thể để tư vấn giải pháp sức khỏe phù hợp.</p>
+                    <p style="color: #15803d; margin-top: 10px;">Vui lòng kiểm tra hòm thư email để nhận những chia sẻ giá trị về triết lý "Bảo dưỡng cơ thể" từ KOVI.</p>
+                </div>
+            </div>
+            <div class="button-row">
+                <a href="/" style="background: #166534;">Quay lại trang chủ</a>
+            </div>
+        {% else %}
+            <div class="checkout-title">Đơn hàng của bạn đã được lưu</div>
+            <div class="checkout-summary">
+                <div>
+                    <strong>Khách hàng</strong>
+                    <p>{{ order.customer_name }}</p>
+                    <p>{{ order.phone }}</p>
+                </div>
+                <div>
+                    <strong>Sản phẩm</strong>
+                    <p>{{ order.product_name }}</p>
+                    <p>Số lượng: {{ order.quantity }}</p>
+                </div>
+                <div>
+                    <strong>Giá trị đơn hàng</strong>
+                    <p>{{ '{:,.0f}'.format(order.total_amount).replace(',', '.') }} đ</p>
+                    <p>Trạng thái: <strong id="order-status">{{ order.status }}</strong></p>
+                </div>
+            </div>
+
+            <!-- Hộp thông báo thành công -->
+            <div id="success-box" style="display: {% if order.status == 'success' %}block{% else %}none{% endif %}; text-align: center; padding: 40px; border-radius: 16px; background: #ecfdf5; border: 2px solid #10b981; margin-bottom: 28px;">
+                <h2 style="color: #047857; margin-bottom: 10px;">✅ Thanh toán thành công!</h2>
+                <p style="color: #065f46; font-size: 1.2rem; font-weight: bold;">Cảm ơn bạn đã mua hàng tại KOVI.</p>
+                <p style="color: #065f46; margin-top: 10px;">Đơn hàng của bạn đang được xử lý và sẽ sớm được giao.</p>
+            </div>
+
+            <div id="qr-section" style="display: {% if order.status == 'success' %}none{% else %}block{% endif %};">
+                <div class="qr-box">
+                    <div class="qr-code">
+                        <img src="https://qr.sepay.vn/img?bank=MB&acc=0922686567&template=compact&amount={{ order.total_amount | int }}&des=ORDER{{ order.id }}" alt="QR Sepay" width="260" height="260" style="border-radius: 16px;" />
+                    </div>
+                    <div class="qr-text">Quét mã QR Sepay để thanh toán cho đơn hàng #{{ order.id }}</div>
+                    <div class="qr-text">Nội dung: {{ qr_text }}</div>
+                    <div class="qr-text"><a href="https://sepay.vn/?data={{ qr_text | urlencode }}" target="_blank" style="color:#0072ff;">Mở Sepay để thanh toán</a></div>
+                </div>
+            </div>
+
+            <div class="button-row">
+                <a href="/">Quay lại trang chủ</a>
+            </div>
+
+            {% if order and order.status != 'success' %}
+            <script>
+                const orderId = {{ order.id }};
+                const pollInterval = setInterval(async () => {
+                    try {
+                        const response = await fetch(`/api/orders/${orderId}/status`);
+                        const data = await response.json();
+                        if (data.status === 'success') {
+                            clearInterval(pollInterval);
+                            document.getElementById('qr-section').style.display = 'none';
+                            document.getElementById('success-box').style.display = 'block';
+                            document.getElementById('order-status').textContent = 'success';
+                            document.getElementById('order-status').style.color = '#10b981';
+                        }
+                    } catch (error) {
+                        console.error('Lỗi khi kiểm tra trạng thái:', error);
+                    }
+                }, 3000);
+            </script>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+[2026-05-13 22:21:01.674510] --- Sending Order Confirmation to hoailt777+test_order@gmail.com ---
+SUCCESS: Order Confirmation sent.
+[2026-05-13 22:22:59.165922] --- Sending Order Confirmation to hoailt777+test@gmail.com ---
+SUCCESS: Order Confirmation sent.

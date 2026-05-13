@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đông Trùng Hạ Thảo KOVI - Đánh Thức Sức Khỏe</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Montserrat:wght@400;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="/static/images/logo.png" alt="KOVI Logo">
+        </div>
+        <div class="slogan">
+            THIÊN DƯỢC VÀNG - SỨC KHOẺ XANH
+        </div>
+        <div class="contact-info">
+            <a href="tel:0934473447" class="phone-number">📞 Hotline Tư Vấn: 09.3447.3447</a>
+            <a href="/admin" class="admin-link" style="margin-left: 20px; color: #666; text-decoration: none; font-size: 0.9rem;">🔧 Admin</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <p class="hero-subtitle">THƯỢNG DƯỢC HOÀNG GIA - CÔNG NGHỆ F1 HÀN QUỐC</p>
+            <h1 class="hero-title">KIỆT SỨC, MẤT NGỦ, HAY ỐM VẶT?</h1>
+            <p class="hero-desc">Đã đến lúc bạn cần "đánh thức" sức khỏe từ bên trong. Khôi phục năng lượng, tăng cường
+                miễn dịch và bảo vệ sức khỏe toàn diện với <strong>Đông Trùng Hạ Thảo KOVI</strong>.</p>
+            <a href="#order-form" class="cta-button">NHẬN TƯ VẤN MIỄN PHÍ & ƯU ĐÃI</a>
+        </div>
+        <div class="hero-image">
+            <!-- Thay bằng Video phỏng vấn VTV -->
+            <video width="100%" controls poster="/static/images/hero-vtv.jpg"
+                style="border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <source src="/static/images/video-vtv.mp4" type="video/mp4">
+                Trình duyệt của bạn không hỗ trợ thẻ video.
+            </video>
+        </div>
+    </section>
+
+    <!-- Vấn đề Khách Hàng -->
+    <section id="problems" class="pain-points">
+        <h2 class="section-title">Có phải bạn đang đối mặt với?</h2>
+        <div class="pain-grid">
+            <div class="pain-card">
+                <h3>Thường xuyên mệt mỏi</h3>
+                <p>Cơ thể luôn uể oải, thiếu sức sống dù đã ngủ đủ giấc, giảm hiệu suất công việc.</p>
+            </div>
+            <div class="pain-card">
+                <h3>Suy giảm miễn dịch</h3>
+                <p>Thường xuyên ốm vặt, ho, cảm cúm mỗi khi thời tiết thay đổi.</p>
+            </div>
+            <div class="pain-card">
+                <h3>Mất ngủ triền miên</h3>
+                <p>Ăn không ngon, ngủ không sâu giấc, đặc biệt là ở người cao tuổi.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Giải pháp KOVI -->
+    <section id="benefits" class="solution">
+        <div class="solution-content">
+            <h2>Giải Pháp Vàng Cho Sức Khỏe Kim Cương</h2>
+            <p>Chúng tôi tự hào mang đến dòng sản phẩm Đông Trùng Hạ Thảo chất lượng cao, được nuôi trồng khép kín tại
+                Hợp tác xã Dược liệu công nghệ cao KOVI.</p>
+            <ul>
+                <li><strong>Công nghệ chuyển giao từ Hàn Quốc:</strong> Tiên phong ứng dụng quy trình hiện đại nhất.
+                </li>
+                <li><strong>Giống thuần chủng F1:</strong> Ép nấm sinh ra dược chất cao nhất.</li>
+                <li><strong>Đạt chuẩn OCOP 4 sao & HACCP:</strong> Bảo chứng chất lượng từ UBND TP.Hà Nội.</li>
+                <li><strong>Hàm lượng dược chất vượt trội:</strong> Tối ưu hóa Cordycepin (212mg) và Adenosine (195mg).
+                </li>
+            </ul>
+            <br>
+            <a href="#order-form" class="cta-button">TÌM HIỂU THÊM</a>
+        </div>
+        <div class="solution-image">
+            <img src="/static/images/product-tea.jpg" alt="Đông Trùng Hạ Thảo KOVI Pha Trà">
+        </div>
+    </section>
+
+    <!-- Form Đăng ký tư vấn -->
+    <section id="order-form" style="padding: 80px 5%; background-color: #fff; text-align: center;">
+        <div style="max-width: 800px; margin: 0 auto; width: 100%; padding: 0 10px;">
+            <h2 class="section-title">ĐĂNG KÝ TƯ VẤN SẢN PHẨM</h2>
+            <form action="/checkout" method="post" style="display: flex; flex-direction: column; gap: 20px; max-width: 500px; margin: 0 auto;">
+                <input type="hidden" name="product_id" value="tu-van">
+                
+                <div style="text-align: left;">
+                    <label for="name" style="display: block; margin-bottom: 5px; font-weight: bold;">Họ tên *</label>
+                    <input type="text" id="name" name="name" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px;">
+                </div>
+                
+                <div style="text-align: left;">
+                    <label for="phone" style="display: block; margin-bottom: 5px; font-weight: bold;">Số điện thoại *</label>
+                    <input type="tel" id="phone" name="phone" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px;">
+                </div>
+                
+                <div style="text-align: left;">
+                    <label for="email" style="display: block; margin-bottom: 5px; font-weight: bold;">Email *</label>
+                    <input type="email" id="email" name="email" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px;">
+                </div>
+                
+                <div style="text-align: left;">
+                    <label for="address" style="display: block; margin-bottom: 5px; font-weight: bold;">Địa chỉ (tùy chọn)</label>
+                    <input type="text" id="address" name="address" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px;">
+                </div>
+                
+                <button type="submit" class="cta-button" style="padding: 15px; font-size: 18px; border: none; border-radius: 8px; cursor: pointer;">ĐĂNG KÝ TƯ VẤN</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Giấy Chứng Nhận -->
+    <section id="certificates" class="certificates">
+        <h2 class="section-title">Bảo Chứng Chất Lượng Vượt Trội</h2>
+        <div class="cert-grid">
+            <div class="cert-card">
+                <img src="/static/images/cert-1.jpg" alt="Chứng nhận OCOP 4 Sao">
+            </div>
+            <div class="cert-card">
+                <img src="/static/images/cert-2.jpg" alt="Chứng nhận HACCP">
+            </div>
+            <div class="cert-card">
+                <img src="/static/images/cert-3.jpg" alt="Tiêu chuẩn nhà máy">
+            </div>
+            <div class="cert-card">
+                <img src="/static/images/cert-4.jpg" alt="Kết quả kiểm nghiệm">
+            </div>
+        </div>
+    </section>
+
+    <!-- Các Dòng Sản Phẩm -->
+    <section id="products" class="products">
+        <h2 class="section-title">Top 3 Sản Phẩm Bán Chạy Nhất Tại KOVI</h2>
+        <div class="product-grid">
+
+            <!-- Sản phẩm 1 -->
+            <div class="product-card">
+                <img src="/static/images/product-combo-kho.jpg" alt="Combo Đông Trùng Hạ Thảo Khô">
+                <div class="product-info">
+                    <h3 style="font-size: 1.3rem;">Combo Đông Trùng Khô (Tặng Táo Đỏ)</h3>
+                    <p style="text-align: left; font-size: 0.95rem;">
+                        ⚡ Tăng sức đề kháng, chống lão hóa.<br>
+                        ⚡ Hỗ trợ tim mạch, gan, thận, phổi & sinh lý.<br>
+                        ⚡ Da dẻ căng bóng hồng hào.<br>
+                        ⚡ Rất tốt cho bệnh nhân phục hồi sau xạ trị.
+                    </p>
+                    <br>
+                    <a href="#order-form" class="cta-button" style="padding: 10px 20px; font-size: 1rem;">MUA VỚI GIÁ
+                        600K</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 2 -->
+            <div class="product-card">
+                <img src="/static/images/product-fresh.jpg" alt="Đông Trùng Hạ Thảo Tươi">
+                <div class="product-info">
+                    <h3 style="font-size: 1.3rem;">Đông Trùng Hạ Thảo Tươi</h3>
+                    <p style="text-align: left; font-size: 0.95rem;">
+                        Giữ nguyên 100% hương vị nguyên bản và dược chất tự nhiên. Sản phẩm cực kỳ linh hoạt và đa dụng:
+                        Tuyệt vời để pha trà, ngâm rượu, ngâm mật ong hay hầm gà tẩm bổ cho gia đình.
+                    </p>
+                    <br>
+                    <a href="#order-form" class="cta-button" style="padding: 10px 20px; font-size: 1rem;">ĐẶT MUA
+                        NGAY</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 3 -->
+            <div class="product-card">
+                <img src="/static/images/product-honey.jpg" alt="Cao Tinh Chất Mật Ong">
+                <div class="product-info">
+                    <h3 style="font-size: 1.3rem;">Cao Tinh Chất Mật Ong</h3>
+                    <p style="text-align: left; font-size: 0.95rem;">
+                        ✅ Tăng đề kháng – Bổ phổi, gan, thận.<br>
+                        ✅ Hỗ trợ giấc ngủ sâu – Cải thiện sinh lý.<br>
+                        ✅ Bước tiến đột phá: Chỉ 1 thìa nhỏ mỗi sáng - Tràn đầy năng lượng cả ngày dài!
+                    </p>
+                    <br>
+                    <a href="#order-form" class="cta-button" style="padding: 10px 20px; font-size: 1rem;">ĐẶT MUA
+                        NGAY</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Đánh giá khách hàng (Feedback) -->
+    <section id="feedback" class="feedbacks">
+        <h2 class="section-title">Hàng Ngàn Khách Hàng Đã Trải Nghiệm & Hài Lòng</h2>
+        <div class="feedback-grid">
+            <div class="feedback-card">
+                <img src="/static/images/feedback-1.jpg" alt="Phản hồi khách hàng 1">
+            </div>
+            <div class="feedback-card">
+                <img src="/static/images/feedback-2.jpg" alt="Phản hồi khách hàng 2">
+            </div>
+            <div class="feedback-card">
+                <img src="/static/images/feedback-3.jpg" alt="Phản hồi khách hàng 3">
+            </div>
+            <div class="feedback-card">
+                <img src="/static/images/feedback-4.jpg" alt="Phản hồi khách hàng 4">
+            </div>
+            <div class="feedback-card">
+                <img src="/static/images/feedback-5.jpg" alt="Phản hồi khách hàng 5">
+            </div>
+            <div class="feedback-card">
+                <img src="/static/images/feedback-6.jpg" alt="Phản hồi khách hàng 6">
+            </div>
+        </div>
+    </section>
+
+    <!-- Quà Tặng & CTA Cuối -->
+    <section class="promo-cta">
+        <div class="promo-box">
+            <h3>🎁 QUÀ TẶNG ĐẶC BIỆT THÁNG NÀY 🎁</h3>
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">Khi đặt mua sản phẩm KOVI ngay hôm nay, quý khách sẽ
+                được:</p>
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">TẶNG TÁO ĐỎ & MIỄN PHÍ VẬN CHUYỂN TOÀN QUỐC</h2>
+        </div>
+        <h2 style="margin-bottom: 30px; font-size: 2rem;">SỨC KHỎE KHÔNG THỂ CHỜ ĐỢI!</h2>
+        <a href="#order-form" class="cta-button" style="background-color: #fff; color: var(--primary-red);">NHẬN ƯU ĐÃI
+            CỦA TÔI NGAY</a>
+    </section>
+
+    <!-- Form Đặt Hàng -->
+    <section id="order-form" class="order-section">
+        <h2 class="section-title">Điền Thông Tin Nhận Ưu Đãi</h2>
+        <p style="text-align: center; margin-bottom: 30px; font-size: 1.1rem; color: #555;">Chuyên viên của KOVI sẽ gọi
+            lại tư vấn chi tiết cho bạn ngay sau khi nhận được thông tin!</p>
+        <div class="form-container">
+            <form id="orderForm" action="/checkout" method="POST">
+                <input type="hidden" name="_subject" value="Khách đặt hàng từ Landing Page KOVI!">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="quantity" value="1">
+                <input type="text" name="name" placeholder="Họ và Tên của bạn *" required>
+                <input type="tel" name="phone" placeholder="Số điện thoại liên hệ *" required>
+                <select name="product_id" required>
+                    <option value="" disabled selected>Chọn sản phẩm bạn quan tâm *</option>
+                    <option value="tu-van">Tôi chưa rõ, cần tư vấn thêm</option>
+                </select>
+                <input type="email" name="email" placeholder="Email của bạn (Không bắt buộc)">
+                <input type="text" name="address" placeholder="Địa chỉ nhận hàng (Không bắt buộc)">
+                <button type="submit" class="submit-btn">ĐẶT HÀNG / NHẬN TƯ VẤN NGAY</button>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p style="color: #666; font-size: 0.95rem; margin-bottom: 10px;">— HOẶC —</p>
+                    <button type="submit" class="submit-btn" style="background-color: #0066cc; width: 100%;">💳 THANH TOÁN NGAY BẰNG QR</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const productSelect = document.querySelector('select[name="product_id"]');
+            fetch('api/products')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Không thể tải danh sách sản phẩm');
+                    }
+                    return response.json();
+                })
+                .then(products => {
+                    productSelect.innerHTML = '';
+
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+                    defaultOption.textContent = 'Chọn sản phẩm bạn quan tâm *';
+                    productSelect.appendChild(defaultOption);
+
+                    products.forEach(product => {
+                        const option = document.createElement('option');
+                        option.value = product.id;
+                        option.textContent = product.name || `Sản phẩm #${product.id}`;
+                        productSelect.appendChild(option);
+                    });
+
+                    const adviceOption = document.createElement('option');
+                    adviceOption.value = 'tu-van';
+                    adviceOption.textContent = 'Tôi chưa rõ, cần tư vấn thêm';
+                    productSelect.appendChild(adviceOption);
+                })
+                .catch(error => {
+                    console.warn(error);
+                });
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer id="footer-info">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Thông Tin Liên Hệ</h4>
+                <p><strong>HTX Dược liệu công nghệ cao KOVI</strong></p>
+                <p>Địa chỉ: Thôn Lộc Hà, xã Mai Lâm, huyện Đông Anh, TP Hà Nội</p>
+                <p>Điện thoại: 09.3447.3447</p>
+            </div>
+            <div class="footer-col">
+                <h4>Chăm Sóc Khách Hàng</h4>
+                <p><a href="#" style="color:#555; text-decoration:none;">Chính sách bảo mật</a></p>
+                <p><a href="#" style="color:#555; text-decoration:none;">Chính sách đổi trả</a></p>
+                <p><a href="#" style="color:#555; text-decoration:none;">Hướng dẫn mua hàng</a></p>
+            </div>
+            <div class="footer-col" style="text-align: right;">
+                <h4>Bản Đồ Chỉ Dẫn KOVI</h4>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14889.377045731388!2d105.8752!3d21.0991!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135a9634e5db8d5%3A0xc319114b0811e582!2zTWFpIEzDom0sIMSQw7RuZyBBbmgsIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s"
+                    width="100%" height="150"
+                    style="border:0; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" allowfullscreen=""
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Đông Trùng Hạ Thảo KOVI. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Nút Liên Hệ Trôi Nổi (Floating Contact) -->
+    <div class="floating-contact">
+        <a href="https://zalo.me/1380904224427783563" target="_blank" class="contact-btn zalo-btn">
+            <svg viewBox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" fill="white"
+                    font-family="Arial, sans-serif" font-weight="bold" font-size="16">Zalo</text>
+            </svg>
+        </a>
+        <a href="https://www.facebook.com/DongtrungnhantaoKoVi" target="_blank" class="contact-btn mess-btn">
+            <svg viewBox="0 0 36 36" fill="url(#messenger-gradient)" width="40" height="40"
+                xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="messenger-gradient" x1="18" y1="0" x2="18" y2="36"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#00C6FF" />
+                        <stop offset="1" stop-color="#0072FF" />
+                    </linearGradient>
+                </defs>
+                <path
+                    d="M18 0C8.06 0 0 7.6 0 16.98C0 22.33 2.65 27.08 6.8 30.15V36L13.1 32.53C14.65 32.96 16.29 33.19 18 33.19C27.94 33.19 36 25.59 36 16.98C36 7.6 27.94 0 18 0ZM19.8 23.36L15.3 18.57L6.6 23.36L16.2 13.15L20.7 17.94L29.4 13.15L19.8 23.36Z" />
+            </svg>
+        </a>
+    </div>
+
+</body>
+
+</html>
