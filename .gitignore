@@ -1,0 +1,49 @@
+# Secrets - KHÔNG BAO GIỜ commit các file này lên Git
+.env
+static/resend_config.txt
+
+# Database thật - dữ liệu khách hàng & đơn hàng
+brain.db
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# Logs
+order_log.txt
+sequence_log.txt
+
+# File backup & rác
+*.zip
+kovi_backup.zip
+
+# Dev tools (không cần trên server)
+expose
+forward
+port-forward
+ports
+preview
+list-ports
+5000
+live_site.html
+
+# Ghi chú nội bộ
+day1.txt
+day11.txt
+brain-tracking.md
+brain_review.md
+brain_score.md
+plan.md
+email_sequence.md
+scratch/
+
+# IDE
+.vscode/
+.idea/

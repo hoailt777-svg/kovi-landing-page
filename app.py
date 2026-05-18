@@ -676,4 +676,6 @@ def sepay_webhook():
     return jsonify({'success': False, 'message': 'Order ID not found in content'}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    PORT = int(os.environ.get('PORT', 3000))
+    HOST = os.environ.get('HOST', '0.0.0.0')
+    app.run(debug=False, host=HOST, port=PORT)
