@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS customers (
     email TEXT,
     address TEXT,
     registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_notified INTEGER DEFAULT 0,
     UNIQUE(phone)
 )
 ''')

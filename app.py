@@ -23,10 +23,18 @@ def init_db():
     conn = sqlite3.connect(app.config['DATABASE'])
     cursor = conn.cursor()
     # Tạo các bảng nếu chưa có (rút gọn từ setup_db.py)
-    cursor.execute('''CREATE TABLE IF NOT EXISTS customers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, phone TEXT UNIQUE, zalo TEXT, email TEXT, address TEXT)''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS customers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, phone TEXT UNIQUE, zalo TEXT, email TEXT, address TEXT, is_notified INTEGER DEFAULT 0)''')
     cursor.execute('''CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price REAL NOT NULL, quantity_available INTEGER DEFAULT 0, description TEXT)''')
     cursor.execute('''CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_id INTEGER, product_id INTEGER, quantity INTEGER, total_amount REAL, status TEXT DEFAULT 'pending', order_date DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (customer_id) REFERENCES customers (id), FOREIGN KEY (product_id) REFERENCES products (id))''')
     
+    # Migration an toàn cho các database đã tồn tại chưa có cột is_notified
+    try:
+        cursor.execute("ALTER TABLE customers ADD COLUMN is_notified INTEGER DEFAULT 0")
+        conn.commit()
+    except sqlite3.OperationalError:
+        # Cột đã tồn tại hoặc bảng chưa có
+        pass
+
     # Thêm dữ liệu mẫu nếu bảng products trống
     cursor.execute('SELECT COUNT(*) FROM products')
     if cursor.fetchone()[0] == 0:

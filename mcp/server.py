@@ -90,6 +90,25 @@ def get_customer_info_impl(phone_or_email):
     return {'customer': customer, 'orders': orders}
 
 
+def get_new_leads_since_last_check_impl(mark_read=True, limit=50):
+    conn = get_db_conn()
+    cursor = conn.cursor()
+    cursor.execute('''SELECT * FROM customers 
+                      WHERE is_notified = 0 
+                      ORDER BY id ASC 
+                      LIMIT ?''', (limit,))
+    rows = [dict(r) for r in cursor.fetchall()]
+    
+    if mark_read and rows:
+        ids = [r['id'] for r in rows]
+        placeholders = ','.join('?' for _ in ids)
+        cursor.execute(f'UPDATE customers SET is_notified = 1 WHERE id IN ({placeholders})', ids)
+        conn.commit()
+        
+    conn.close()
+    return {'new_leads_count': len(rows), 'leads': rows}
+
+
 def check_auth(request):
     auth = request.headers.get('Authorization', '')
     if auth.startswith('Bearer '):
@@ -112,6 +131,12 @@ def mcp_call():
             return jsonify(update_order_status_impl(int(params.get('order_id')), params.get('status')))
         elif name == 'get_customer_info':
             return jsonify(get_customer_info_impl(params.get('phone_or_email') or params.get('phone') or params.get('email')))
+        elif name == 'get_new_leads_since_last_check':
+            mark_read = params.get('mark_read', True)
+            if isinstance(mark_read, str):
+                mark_read = mark_read.lower() == 'true'
+            limit = int(params.get('limit', 50))
+            return jsonify(get_new_leads_since_last_check_impl(mark_read, limit))
         else:
             return jsonify({'error': 'unknown function'}), 400
     except Exception as e:
@@ -137,17 +162,28 @@ def run_tests():
         print('No product found in DB; tests cannot proceed.')
         return 1
     product_id = prod['id']
+    
+    # generate unique phone numbers to avoid UNIQUE constraint violations
+    test_phone = f"099{int(time.time()) % 10000000:07d}"
+    test_phone_lead = f"098{int(time.time()) % 10000000:07d}"
+
     # insert customer
     cur.execute("INSERT INTO customers (name, phone, zalo, email, address) VALUES (?,?,?,?,?)",
-                ('MCP Test', '0999000000', '', 'mcp@test.local', 'Test'))
+                ('MCP Test', test_phone, '', 'mcp@test.local', 'Test'))
     customer_id = cur.lastrowid
     # insert order
     cur.execute('INSERT INTO orders (customer_id, product_id, quantity, total_amount, status) VALUES (?,?,?,?,?)',
                 (customer_id, product_id, 1, prod['price'], 'pending'))
     order_id = cur.lastrowid
+
+    # insert a dedicated new lead for testing get_new_leads_since_last_check
+    cur.execute("INSERT INTO customers (name, phone, zalo, email, address, is_notified) VALUES (?,?,?,?,?,?)",
+                ('Lead Test', test_phone_lead, '', 'lead@test.local', 'Test Address', 0))
+    lead_id = cur.lastrowid
+
     conn.commit()
     conn.close()
-    print(f'Inserted customer_id={customer_id} order_id={order_id}')
+    print(f'Inserted customer_id={customer_id} order_id={order_id} lead_id={lead_id}')
 
     url = 'http://127.0.0.1:3001/mcp'
     headers = {'Content-Type': 'application/json', 'Authorization': f'Bearer {MCP_TOKEN}'}
@@ -167,8 +203,17 @@ def run_tests():
     out2 = post_json({'name': 'update_order_status', 'params': {'order_id': order_id, 'status': 'success'}})
     print('\n[update_order_status] ->', out2)
 
-    out3 = post_json({'name': 'get_customer_info', 'params': {'phone_or_email': '0999000000'}})
+    out3 = post_json({'name': 'get_customer_info', 'params': {'phone_or_email': test_phone}})
     print('\n[get_customer_info] ->', out3)
+
+    out4 = post_json({'name': 'get_new_leads_since_last_check', 'params': {'mark_read': False}})
+    print('\n[get_new_leads_since_last_check mark_read=False] ->', out4)
+
+    out5 = post_json({'name': 'get_new_leads_since_last_check', 'params': {'mark_read': True}})
+    print('\n[get_new_leads_since_last_check mark_read=True] ->', out5)
+
+    out6 = post_json({'name': 'get_new_leads_since_last_check', 'params': {}})
+    print('\n[get_new_leads_since_last_check second fetch] ->', out6)
 
     # Basic verification
     ok = True
@@ -176,12 +221,30 @@ def run_tests():
         r1 = json.loads(out1)
         r2 = json.loads(out2)
         r3 = json.loads(out3)
+        r4 = json.loads(out4)
+        r5 = json.loads(out5)
+        r6 = json.loads(out6)
         if 'new_orders_count' not in r1:
             ok = False
         if not r2.get('success'):
             ok = False
         if not r3.get('customer'):
             ok = False
+        
+        # Verify leads test
+        if r4.get('new_leads_count', 0) == 0:
+            print("Failed verification: no new leads found in first fetch (mark_read=False)")
+            ok = False
+        if r5.get('new_leads_count', 0) == 0:
+            print("Failed verification: no new leads found in second fetch (mark_read=True)")
+            ok = False
+            
+        # Our lead_id should not be in the third fetch since r5 marked it read
+        lead_ids_r6 = [lead['id'] for lead in r6.get('leads', [])]
+        if lead_id in lead_ids_r6:
+            print("Failed verification: test lead was not marked read")
+            ok = False
+            
     except Exception as e:
         print('Error parsing results:', e)
         ok = False
